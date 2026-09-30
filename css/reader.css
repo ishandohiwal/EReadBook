@@ -1,0 +1,844 @@
+/* ==========================================
+   AuraRead - Reader Styles
+   ========================================== */
+
+/* ==========================================
+   Reader Container
+   ========================================== */
+
+.reader-container {
+    position: fixed;
+    inset: 0;
+    background-color: var(--color-bg-reader);
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+}
+
+.reader-container.active {
+    display: flex;
+}
+
+/* ==========================================
+   Reader Header/Top Bar
+   ========================================== */
+
+.reader-top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to bottom, rgba(15, 20, 25, 0.95), transparent);
+    backdrop-filter: blur(10px);
+    padding: var(--spacing-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    pointer-events: none;
+}
+
+.reader-top-bar.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.reader-top-bar-left {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.reader-top-bar-center {
+    flex: 1;
+    text-align: center;
+    margin: 0 var(--spacing-lg);
+}
+
+.reader-top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.reader-book-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+.reader-chapter-title {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-top: var(--spacing-xs);
+}
+
+.reader-icon-button {
+    background: transparent;
+    border: none;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+.reader-icon-button:hover {
+    background-color: rgba(124, 92, 255, 0.15);
+    color: var(--color-accent);
+}
+
+.reader-icon-button svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ==========================================
+   Reader Bottom Bar
+   ========================================== */
+
+.reader-bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(15, 20, 25, 0.95), transparent);
+    backdrop-filter: blur(10px);
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    z-index: 10;
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    pointer-events: none;
+    padding-bottom: calc(var(--spacing-lg) + env(safe-area-inset-bottom));
+}
+
+.reader-bottom-bar.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.reader-progress-bar {
+    width: 100%;
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.reader-progress-fill {
+    height: 100%;
+    background-color: var(--color-accent);
+    border-radius: 2px;
+    transition: width var(--transition-base);
+}
+
+.reader-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.reader-page-info {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+}
+
+.reader-nav-buttons {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.reader-settings-panel {
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-xl);
+    padding: var(--spacing-lg);
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 20;
+    box-shadow: var(--shadow-xl);
+    display: none;
+}
+
+.reader-settings-panel.visible {
+    display: block;
+}
+
+.reader-settings-group {
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.reader-settings-group:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.reader-settings-label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.reader-settings-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+}
+
+.reader-settings-option {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+    transition: all var(--transition-base);
+    text-align: center;
+}
+
+.reader-settings-option:hover {
+    border-color: var(--color-accent);
+    background-color: rgba(124, 92, 255, 0.1);
+}
+
+.reader-settings-option.active {
+    background-color: var(--color-accent);
+    color: white;
+    border-color: var(--color-accent);
+}
+
+.reader-slider {
+    width: 100%;
+}
+
+.reader-slider input[type="range"] {
+    width: 100%;
+}
+
+/* ==========================================
+   EPUB Reader
+   ========================================== */
+
+.epub-reader {
+    flex: 1;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+}
+
+.epub-viewport {
+    flex: 1;
+    overflow: auto;
+    position: relative;
+}
+
+.epub-content {
+    font-family: var(--font-family-serif);
+    color: var(--color-text-primary);
+    line-height: 1.8;
+    padding: var(--spacing-2xl);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.epub-content p {
+    margin-bottom: 1em;
+}
+
+.epub-content h1,
+.epub-content h2,
+.epub-content h3 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    font-weight: var(--font-weight-bold);
+}
+
+.epub-content h1 {
+    font-size: 1.8em;
+}
+
+.epub-content h2 {
+    font-size: 1.5em;
+}
+
+.epub-content h3 {
+    font-size: 1.2em;
+}
+
+/* EPUB highlights */
+.epub-highlight {
+    position: relative;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.epub-highlight.yellow {
+    background-color: var(--color-highlight-yellow);
+    border-bottom: 2px solid var(--color-highlight-yellow-border);
+}
+
+.epub-highlight.blue {
+    background-color: var(--color-highlight-blue);
+    border-bottom: 2px solid var(--color-highlight-blue-border);
+}
+
+.epub-highlight.green {
+    background-color: var(--color-highlight-green);
+    border-bottom: 2px solid var(--color-highlight-green-border);
+}
+
+.epub-highlight.pink {
+    background-color: var(--color-highlight-pink);
+    border-bottom: 2px solid var(--color-highlight-pink-border);
+}
+
+.epub-tts-active {
+    background-color: rgba(124, 92, 255, 0.2);
+    border-bottom: 3px solid var(--color-accent);
+    animation: ttsHighlight 0.3s ease-out;
+}
+
+@keyframes ttsHighlight {
+    from {
+        background-color: rgba(124, 92, 255, 0.4);
+    }
+    to {
+        background-color: rgba(124, 92, 255, 0.2);
+    }
+}
+
+/* ==========================================
+   PDF Reader
+   ========================================== */
+
+.pdf-reader {
+    flex: 1;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+}
+
+.pdf-viewport {
+    flex: 1;
+    overflow: auto;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pdf-canvas {
+    max-width: 100%;
+    max-height: 100%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.pdf-continuous {
+    flex-direction: column;
+}
+
+.pdf-continuous .pdf-page {
+    width: 100%;
+    margin: var(--spacing-xl) 0;
+}
+
+.pdf-page {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pdf-page canvas {
+    box-shadow: var(--shadow-lg);
+    border-radius: var(--border-radius-md);
+}
+
+/* ==========================================
+   Reader Overlay
+   ========================================== */
+
+.reader-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: transparent;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.reader-overlay.tap-zones {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.reader-tap-zone {
+    cursor: pointer;
+}
+
+.reader-tap-zone.left {
+    cursor: w-resize;
+}
+
+.reader-tap-zone.right {
+    cursor: e-resize;
+}
+
+/* ==========================================
+   TOC Drawer
+   ========================================== */
+
+.toc-drawer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 300px;
+    background-color: var(--color-bg-secondary);
+    border-right: 1px solid var(--color-border);
+    transform: translateX(-100%);
+    transition: transform var(--transition-slow);
+    z-index: 100;
+    overflow-y: auto;
+    padding: var(--spacing-lg);
+    padding-top: calc(var(--spacing-lg) + env(safe-area-inset-top));
+}
+
+.toc-drawer.visible {
+    transform: translateX(0);
+}
+
+.toc-header {
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.toc-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.toc-close {
+    position: absolute;
+    top: var(--spacing-lg);
+    right: var(--spacing-lg);
+    background: transparent;
+    border: none;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    font-size: var(--font-size-lg);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toc-list {
+    list-style: none;
+}
+
+.toc-item {
+    margin-bottom: var(--spacing-md);
+}
+
+.toc-link {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: transparent;
+    border: none;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+    text-align: left;
+    width: 100%;
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-base);
+    border-left: 3px solid transparent;
+}
+
+.toc-link:hover {
+    color: var(--color-text-primary);
+    background-color: rgba(124, 92, 255, 0.1);
+    border-left-color: var(--color-accent);
+}
+
+.toc-link.active {
+    color: var(--color-accent);
+    background-color: rgba(124, 92, 255, 0.15);
+    border-left-color: var(--color-accent);
+}
+
+.toc-nested {
+    margin-left: var(--spacing-md);
+    border-left: 1px solid var(--color-border);
+    padding-left: var(--spacing-md);
+    margin-top: var(--spacing-sm);
+}
+
+/* ==========================================
+   Search Panel
+   ========================================== */
+
+.reader-search-panel {
+    position: absolute;
+    top: 80px;
+    right: var(--spacing-lg);
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    width: 350px;
+    max-height: 400px;
+    box-shadow: var(--shadow-lg);
+    z-index: 20;
+    display: none;
+}
+
+.reader-search-panel.visible {
+    display: flex;
+    flex-direction: column;
+}
+
+.reader-search-input {
+    width: 100%;
+    padding: var(--spacing-md);
+    background-color: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-base);
+}
+
+.reader-search-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.1);
+}
+
+.reader-search-results {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: var(--spacing-md);
+}
+
+.reader-search-result {
+    padding: var(--spacing-sm);
+    background-color: var(--color-bg-tertiary);
+    border-radius: var(--border-radius-md);
+    margin-bottom: var(--spacing-sm);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+.reader-search-result:hover {
+    background-color: rgba(124, 92, 255, 0.15);
+    color: var(--color-text-primary);
+}
+
+.reader-search-count {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    text-align: center;
+    margin-top: var(--spacing-md);
+}
+
+/* ==========================================
+   TTS Panel
+   ========================================== */
+
+.tts-panel {
+    position: absolute;
+    bottom: 80px;
+    left: var(--spacing-lg);
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-xl);
+    padding: var(--spacing-lg);
+    width: 300px;
+    z-index: 20;
+    box-shadow: var(--shadow-xl);
+    display: none;
+}
+
+.tts-panel.visible {
+    display: block;
+}
+
+.tts-controls {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.tts-button {
+    padding: var(--spacing-md);
+    background-color: var(--color-accent);
+    border: none;
+    color: white;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    transition: all var(--transition-base);
+}
+
+.tts-button:hover {
+    background-color: var(--color-accent-hover);
+}
+
+.tts-button.secondary {
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-text-secondary);
+}
+
+.tts-button.secondary:hover {
+    background-color: rgba(124, 92, 255, 0.15);
+    color: var(--color-accent);
+}
+
+.tts-setting {
+    margin-bottom: var(--spacing-md);
+}
+
+.tts-setting label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.tts-select,
+.tts-range {
+    width: 100%;
+    padding: var(--spacing-sm);
+    background-color: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+}
+
+.tts-range {
+    cursor: pointer;
+}
+
+/* ==========================================
+   Highlights Menu
+   ========================================== */
+
+.highlights-menu {
+    position: fixed;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-sm);
+    display: none;
+    z-index: 1000;
+    box-shadow: var(--shadow-lg);
+}
+
+.highlights-menu.visible {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.highlight-color-option {
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.highlight-color-option:hover {
+    transform: scale(1.1);
+    border-color: var(--color-accent);
+}
+
+.highlight-color-option.yellow {
+    background-color: var(--color-highlight-yellow-border);
+}
+
+.highlight-color-option.blue {
+    background-color: var(--color-highlight-blue-border);
+}
+
+.highlight-color-option.green {
+    background-color: var(--color-highlight-green-border);
+}
+
+.highlight-color-option.pink {
+    background-color: var(--color-highlight-pink-border);
+}
+
+.highlight-action-button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--color-bg-tertiary);
+    border: none;
+    color: var(--color-text-secondary);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    font-size: var(--font-size-xs);
+    transition: all var(--transition-base);
+}
+
+.highlight-action-button:hover {
+    background-color: rgba(124, 92, 255, 0.15);
+    color: var(--color-accent);
+}
+
+/* ==========================================
+   Loading States
+   ========================================== */
+
+.reader-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.reader-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(124, 92, 255, 0.2);
+    border-top-color: var(--color-accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.reader-loading-text {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+}
+
+/* ==========================================
+   Brightness Overlay
+   ========================================== */
+
+.brightness-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: transparent;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.brightness-overlay.dark {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.brightness-overlay.darker {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.brightness-overlay.light {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================
+   Reader Tap Feedback
+   ========================================== */
+
+.reader-tap-feedback {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    background-color: rgba(124, 92, 255, 0.2);
+    border: 2px solid var(--color-accent);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: tapFeedback 0.6s ease-out forwards;
+}
+
+@keyframes tapFeedback {
+    from {
+        transform: scale(0);
+        opacity: 1;
+    }
+    to {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* ==========================================
+   Bookmark Button
+   ========================================== */
+
+.reader-bookmark-button {
+    position: relative;
+}
+
+.reader-bookmark-button.bookmarked {
+    color: var(--color-accent);
+}
+
+.bookmark-indicator {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--color-accent);
+    color: white;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-xs);
+    white-space: nowrap;
+    pointer-events: none;
+    animation: slideDown var(--transition-base);
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
