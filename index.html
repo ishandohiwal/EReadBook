@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AuraRead - A premium personal digital reading environment for EPUB and PDF books">
+    <title>AuraRead</title>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/reader.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- Icons (Lucide Icons via CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+    
+    <!-- EPUB.js -->
+    <script src="https://cdn.jsdelivr.net/npm/epubjs@0.3.93/dist/epub.min.js"></script>
+    
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+</head>
+<body>
+    <!-- Main App Container -->
+    <div id="app" class="app">
+        <!-- Mobile Bottom Navigation -->
+        <nav id="mobileNav" class="mobile-nav">
+            <button class="nav-button" data-view="library" data-icon="BookOpen">
+                <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                <span>Library</span>
+            </button>
+            <button class="nav-button" data-view="quotes" data-icon="Quote2">
+                <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span>Quotes</span>
+            </button>
+            <button class="nav-button" data-view="stats" data-icon="BarChart3">
+                <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="2" x2="12" y2="22"></line>
+                    <path d="M17 5h-2.5a1.5 1.5 0 0 0-1.5 1.5v12a1.5 1.5 0 0 0 1.5 1.5H17"></path>
+                    <path d="M7 9.5H4.5a1.5 1.5 0 0 0-1.5 1.5v6a1.5 1.5 0 0 0 1.5 1.5H7"></path>
+                </svg>
+                <span>Stats</span>
+            </button>
+            <button class="nav-button" data-view="settings" data-icon="Settings">
+                <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m3.08 3.08l4.24 4.24M1 12h6m6 0h6m-17.78 7.78l4.24-4.24m3.08-3.08l4.24-4.24"></path>
+                </svg>
+                <span>Settings</span>
+            </button>
+        </nav>
+
+        <!-- Desktop Sidebar -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="logo">AuraRead</h1>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <button class="nav-link active" data-view="library">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    <span>Library</span>
+                </button>
+                <button class="nav-link" data-view="quotes">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span>Quotes</span>
+                </button>
+                <button class="nav-link" data-view="stats">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="2" x2="12" y2="22"></line>
+                        <path d="M17 5h-2.5a1.5 1.5 0 0 0-1.5 1.5v12a1.5 1.5 0 0 0 1.5 1.5H17"></path>
+                        <path d="M7 9.5H4.5a1.5 1.5 0 0 0-1.5 1.5v6a1.5 1.5 0 0 0 1.5 1.5H7"></path>
+                    </svg>
+                    <span>Statistics</span>
+                </button>
+                <button class="nav-link" data-view="settings">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m3.08 3.08l4.24 4.24M1 12h6m6 0h6m-17.78 7.78l4.24-4.24m3.08-3.08l4.24-4.24"></path>
+                    </svg>
+                    <span>Settings</span>
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main id="mainContent" class="main-content">
+            <!-- Library View -->
+            <div id="libraryView" class="view active">
+                <div class="library-header">
+                    <div class="library-title-section">
+                        <h2>Your Library</h2>
+                    </div>
+                    <div class="library-controls">
+                        <input type="text" id="librarySearch" class="search-input" placeholder="Search books...">
+                        <button id="importButton" class="btn btn-primary">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 5v14M5 12h14"></path>
+                            </svg>
+                            Import
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filters and Sorting -->
+                <div class="library-filters">
+                    <div class="filter-group">
+                        <label>Filter:</label>
+                        <select id="filterSelect" class="filter-select">
+                            <option value="all">All Books</option>
+                            <option value="reading">Currently Reading</option>
+                            <option value="unread">Not Started</option>
+                            <option value="completed">Completed</option>
+                            <option value="epub">EPUB</option>
+                            <option value="pdf">PDF</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Sort:</label>
+                        <select id="sortSelect" class="filter-select">
+                            <option value="recent">Recently Opened</option>
+                            <option value="added">Recently Added</option>
+                            <option value="title">Title</option>
+                            <option value="author">Author</option>
+                            <option value="progress">Progress</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Continue Reading Section -->
+                <section id="continueReading" class="continue-reading-section" style="display: none;">
+                    <h3>Continue Reading</h3>
+                    <div id="continueReadingContainer" class="continue-reading-grid"></div>
+                </section>
+
+                <!-- Library Grid -->
+                <section id="librarySection" class="library-section">
+                    <div id="libraryGrid" class="library-grid"></div>
+                    <div id="emptyState" class="empty-state">
+                        <p>Your library is waiting.</p>
+                        <p class="empty-state-subtitle">Import an EPUB or PDF to begin.</p>
+                        <button id="emptyImportButton" class="btn btn-secondary">
+                            Import Your First Book
+                        </button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Quotes View -->
+            <div id="quotesView" class="view">
+                <div class="quotes-header">
+                    <h2>Your Quotes</h2>
+                </div>
+                <div id="quotesContainer" class="quotes-container"></div>
+                <div id="quotesEmpty" class="empty-state">
+                    <p>Your best passages will live here.</p>
+                    <p class="empty-state-subtitle">Highlight text while reading to save quotes.</p>
+                </div>
+            </div>
+
+            <!-- Statistics View -->
+            <div id="statsView" class="view">
+                <div class="stats-header">
+                    <h2>Reading Statistics</h2>
+                </div>
+                <div id="statsContainer" class="stats-container"></div>
+            </div>
+
+            <!-- Settings View -->
+            <div id="settingsView" class="view">
+                <div class="settings-header">
+                    <h2>Settings</h2>
+                </div>
+                <div id="settingsContainer" class="settings-container"></div>
+            </div>
+        </main>
+
+        <!-- Reader Container (initially hidden) -->
+        <div id="readerContainer" class="reader-container" style="display: none;">
+            <!-- Will be populated by reader module -->
+        </div>
+    </div>
+
+    <!-- Import Modal -->
+    <div id="importModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Import Book</h3>
+                <button class="modal-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="dropZone" class="drop-zone">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <p>Drag and drop EPUB or PDF here</p>
+                    <p class="drop-zone-subtitle">or click to select</p>
+                    <input type="file" id="fileInput" accept=".epub,.pdf" style="display: none;">
+                </div>
+                <div id="importProgress" class="import-progress" style="display: none;">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <p id="importStatus">Importing...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Command Palette -->
+    <div id="commandPalette" class="command-palette" style="display: none;">
+        <div class="command-palette-content">
+            <input type="text" id="commandInput" class="command-input" placeholder="Type a command...">
+            <div id="commandList" class="command-list"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/storage.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/tts.js"></script>
+    <script src="js/library.js"></script>
+    <script src="js/epub-reader.js"></script>
+    <script src="js/pdf-reader.js"></script>
+    <script src="js/reader.js"></script>
+    <script src="js/statistics.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
